@@ -207,7 +207,7 @@ const App = () => {
       console.log('Fetching GIF list...');
       getGifList();
     }
-  }, [walletAddress]);
+  }, [walletAddress, getGifList]);
   return (
       <div className="App">
         <div className={walletAddress ? 'authed-container' : 'container'}>
