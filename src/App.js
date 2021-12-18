@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, {useCallback, useEffect, useState} from 'react';
 import { Connection, PublicKey, clusterApiUrl } from '@solana/web3.js';
 import { Program, Provider, web3 } from '@project-serum/anchor';
 import twitterLogo from './assets/twitter-logo.svg';
@@ -7,7 +7,7 @@ import idl from './idl.json';
 import kp from './keypair.json';
 
 // SystemProgram is a reference to the Solana runtime
-const { SystemProgram, Keypair } = web3;
+const { SystemProgram } = web3;
 
 // Create a keypair for the account that'll hold the GIF data
 const arr = Object.values(kp._keypair.secretKey);
@@ -29,14 +29,7 @@ const opts = {
 const TWITTER_HANDLE = '_buildspace';
 const TWITTER_LINK = `https://twitter.com/${TWITTER_HANDLE}`;
 
-const TEST_GIFS = [
-    'https://media.giphy.com/media/Nk98yAvQesX3q/giphy.gif',
-    'https://media.giphy.com/media/3o6fJ6JXdnY3Y0sMg0/giphy.gif',
-    'https://media.giphy.com/media/3o7TKB3oifq46DDhOE/giphy.gif',
-    'https://media.giphy.com/media/ckltH3WWaHuSUAgIZE/giphy.gif',
-];
-
-const App = () => {
+const App = (callback, deps) => {
   const [walletAddress, setWalletAddress] = useState(null);
   const [inputValue, setInputValue] = useState('');
   const [gifList, setGifList] = useState([]);
@@ -100,7 +93,7 @@ const App = () => {
     }
   };
 
-  const getGifList = async () => {
+  const getGifList = useCallback(async () => {
     try {
       const provider = getProvider();
       const program = new Program(idl, programID, provider);
@@ -112,7 +105,7 @@ const App = () => {
       console.log("Error in getGifList: ", error);
       setGifList(null);
     }
-  };
+  });
 
   const onInputChange = (event) => {
     const { value } = event.target;
