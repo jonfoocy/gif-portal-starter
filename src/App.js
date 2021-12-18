@@ -144,7 +144,8 @@ const App = (callback, deps) => {
       <button
           className='cta-button connect-wallet-button'
           onClick={connectWallet}
-      >Connect to Walletc
+      >
+        Connect to Wallet
       </button>
   );
 
